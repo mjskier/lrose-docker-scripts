@@ -80,18 +80,17 @@ container. For example:
 /path/to/some/folder/KHGX:/tmp/KHGX
 # Output directory for lrose commands. Make sure I have write access
 /my/path/to/large/disk:/tmp/output:rw
-# I want to be able to access my Linux home from inside the container
-/home/miko:/home/miko:rw
-# On a Mac it might look like this
-/Users/miko:/home/miko:rw
 ```
 
 The `lrose` wrapper will convert all of these to `--volume` options
 when running a container.
 
+By default, your $HOME is mapped to $HOME (either /home/user on Linux, or /Users/user on a mac)
+
 #### A few gotchas with volume mounting ###
 
-  * Docker will try to mount volumes exactly as requested. The following will fail because you are trying to replace /tmp, not mount /home/myself under /tmp: **/home/myself:/tmp**. If you want to mount your home directory somewhere, you have to specify an absolute path. For example **/home/myself:/tmp/myself** or **/home/myself:/home/myself**.
+  * Docker will try to mount volumes exactly as requested. The following will fail because you are trying to replace /tmp, not mount /somedir under /tmp: `-v /somedir:/tmp`. If you want to mount a directory somewhere, you have to specify an absolute path. For example `/somedir:/tmp/somedir`.
+  * */tmp*, */*, and probably other crucial directories can't be overwritten. So this won't work: `-v /:/` (trying to replace / inside the container)
   
 #### A few gotchas with the lrose wrapper ####
 

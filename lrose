@@ -83,7 +83,7 @@ REMOVE="--rm"
 IMAGE=`docker images | grep nsflrose/lrose-blaze | grep latest | awk '{ print $3; }'`
 CONTAINER="lrose-container"
 ARG_FILE="$HOME/.lroseargs"
-VOLUME_ARGS=""
+VOLUME_ARGS="-v $HOME:$HOME"
 ENV_ARGS=""
 RAW_ARGS=""
 
