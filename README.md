@@ -14,3 +14,5 @@ Various scripts and files to build a lrose-blaze image
   		Wrapper script to simplify running commands in the container
   * release.sh
       Tag the image and push it so that it is available as 'latest' as well as 'mmddyyyy'
+  * pull.rb
+      Script to get the image pull count
