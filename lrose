@@ -102,7 +102,7 @@ case $my_os in
 	my_ip=`host $my_host`
 	my_ip=${my_ip##* }
 	DISPLAY_OPT="-e DISPLAY=$my_ip:0"
-	`xhost +$my_ip`
+	xhost +$my_ip > /dev/null
     ;;
     *)
 	echo "Unknown OS '$my_os'. I don't know how to set up DISPLAY. Using Linux"
