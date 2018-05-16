@@ -139,7 +139,7 @@ If you decide to manage your containers yourself instead of using the `lrose` wr
    ```
    
    
-3. Get a interactive shell in the container and run multiple commands from inside the container
+3. Get an interactive shell in the container and run multiple commands from inside the container
 
    `docker run -it ... /bin/bash`
    
@@ -162,7 +162,7 @@ Note that you need to use **absolute paths**. So in this example, there will be 
 
 If the options you give the command running inside the container direct it to find data from **/data** and to write output to **/output**, you should see the output in **$HOME/mydata** from outside the container once the command is done.
 
-Also note that volume mapping must be done at the time you **run** a container. You can't add volume mapping when you **exec** a command on a running container. (TODO check if this is true)
+Also note that volume mapping must be done at the time you **run** a container. You can't add volume mapping when you **exec** a command on a running container.
 
 #### Running X11 programs (such as HawkEye)
 
@@ -198,9 +198,9 @@ docker run --name lrose_container --user lrose \
 
 #### Other useful options
 
-talk about environment variables
+* The *-e* option lets you set variables inside the container. For example, if you wanted to set DEBUG to 1, and EDITOR to emacs inside the container, you would use these 2 options on the *run* or *exec* command:
 
-... what else?
+` ..... -e DEBUG=1 -e EDITOR=emacs .....`
 
 ## Some useful commands to manage containers and images
 
