@@ -1,6 +1,6 @@
 ## -*- docker-image-name: "nsflrose/lrose-blaze" -*-
 
-FROM ubuntu as builder
+FROM ubuntu:16.04 as builder
 
 MAINTAINER Bruno Melli "bpmelli@rams.colostate.edu"
 LABEL vendor="Joint NCAR CSU"
@@ -24,7 +24,7 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake /usr/bin/qmake-qt5 && \
 
 # Start from a fresh ubuntu to not carry over all the build stuff
 
-FROM ubuntu
+FROM ubuntu:16.04
 
 # Copy the lrose build
 
