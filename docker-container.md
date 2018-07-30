@@ -91,6 +91,7 @@ By default, your $HOME is mapped to $HOME (either /home/user on Linux, or /Users
 
   * Docker will try to mount volumes exactly as requested. The following will fail because you are trying to replace /tmp, not mount /somedir under /tmp: `-v /somedir:/tmp`. If you want to mount a directory somewhere, you have to specify an absolute path. For example `/somedir:/tmp/somedir`.
   * */tmp*, */*, and probably other crucial directories can't be overwritten. So this won't work: `-v /:/` (trying to replace / inside the container)
+  * NFS mounted volumes need a bit more work. See the **Mapping NFS Volumes** section below
   
 #### A few gotchas with the lrose wrapper ####
 
@@ -163,6 +164,34 @@ Note that you need to use **absolute paths**. So in this example, there will be 
 If the options you give the command running inside the container direct it to find data from **/data** and to write output to **/output**, you should see the output in **$HOME/mydata** from outside the container once the command is done.
 
 Also note that volume mapping must be done at the time you **run** a container. You can't add volume mapping when you **exec** a command on a running container.
+
+#### Mapping NFS Volumes
+
+Before you can map an NFS volume, you need to create it with the **docker volume create** command.
+First, find out how it is mounted on your machine with the mount command.
+
+`mount`
+
+You'll probably see a line like the following:
+
+`server:/path/to/volume on /path/to/mount-point type nfs4 (rw,.... )`
+
+Look up the server IP address, and use is, as well as the mount point, in your docker volume creation. I use **my_scratch** as the volume name, but you can obviously pick any name you like.
+
+```
+docker volume create --driver local --opt type=nfs \
+   --opt o=addr=192.168.0.10,rw \
+   --opt device=:/path/to/mount-point \
+   my_scratch
+```
+
+That volume is then available to the -v option as explained in the section above (either on the lrose command line, or in your ~/.lroseargs file)
+
+`-v my_scratch:lrose_output`
+
+You can check what docker volumes have already been created with
+
+`docker volume ls`
 
 #### Running X11 programs (such as HawkEye)
 
