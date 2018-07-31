@@ -176,12 +176,12 @@ You'll probably see a line like the following:
 
 `server:/path/to/volume on /path/to/mount-point type nfs4 (rw,.... )`
 
-Look up the server IP address, and use is, as well as the mount point, in your docker volume creation. I use **my_scratch** as the volume name, but you can obviously pick any name you like.
+Look up the server IP address, and use is, as well as the path on the server (the /path/to/volume part, not the /path/to/mount-point), in your docker volume creation. I use **my_scratch** as the volume name, but you can obviously pick any name you like.
 
 ```
 docker volume create --driver local --opt type=nfs \
    --opt o=addr=192.168.0.10,rw \
-   --opt device=:/path/to/mount-point \
+   --opt device=:/path/to/volume \
    my_scratch
 ```
 
