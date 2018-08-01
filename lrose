@@ -1,4 +1,5 @@
 #!/bin/bash
+my_version=1.01
 
 # Wrapper script to facilitate running lrose commands in a container.
 # Bruno Melli 4/7/18
@@ -11,6 +12,7 @@
 # By default, the image is lrose-blaze and the container is lrose-container
 
 print_help() {
+    echo "lrose wrapper version $my_version"
     echo "usage: lrose [args] -- command [command args]"
     cat <<EOF
 
@@ -84,11 +86,16 @@ IMAGE=`docker images | grep nsflrose/lrose-blaze | grep latest | awk '{ print $3
 CONTAINER="lrose-container"
 ARG_FILE="$HOME/.lroseargs"
 VOLUME_ARGS="-v $HOME:$HOME"
-ENV_ARGS=""
+ENV_ARGS="-e HOME=$HOME"
 RAW_ARGS=""
 
 debug=0
 run_flag=1
+
+# Who am I
+
+my_uid=`id -u`
+my_gid=`id -g`
 
 # Common docker options
 
@@ -229,8 +236,8 @@ print_msg $debug "id: '$cid', status: '$cstatus'"
 # Set up some docker options for the different state the container could be in
 
 docker_display_opts="$DISPLAY_OPT -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v $HOME/.Xauthority:/home/lrose/.Xauthority"
-docker_run_opts="-t --name $CONTAINER --user lrose -w $HOME $ENV_ARGS $RAW_ARGS"
-docker_exec_opts="-t --user lrose -w $HOME $ENV_ARGS"
+docker_run_opts="-t --name $CONTAINER -u $my_uid:$my_gid -w $HOME $ENV_ARGS $RAW_ARGS"
+docker_exec_opts="-t -u $my_uid:$my_gid -w $HOME $ENV_ARGS"
 
 docker_volume_opts=""
 
