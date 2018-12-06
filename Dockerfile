@@ -53,6 +53,7 @@ WORKDIR /home/lrose
 
 RUN apt-get update && apt-get install -y \
     libqt5gui5 libqt5core5a qt5-default libx11-6 \
+    libfftw3-3 libgeographic14 \
     libfreetype6 && \
     rm -rf /var/lib/apt/lists/* && \
     useradd -G video lrose
