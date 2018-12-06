@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y  \
     libbz2-dev libx11-dev libpng12-dev libfftw3-dev \
     libjasper-dev qtbase5-dev git \
     gcc g++ gfortran libfl-dev \
-    automake make libtool pkg-config libexpat1-dev python
+    automake make libtool pkg-config libexpat1-dev python \
+    cmake libgeographic-dev libeigen3-dev libzip-dev 
     
 WORKDIR /tmp
 
@@ -22,6 +23,23 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake /usr/bin/qmake-qt5 && \
     /tmp/checkout_and_build_auto.py --debug --package lrose-blaze --prefix \
          /usr/local/lrose --clean
 
+# Checkout and build fractl
+
+RUN git clone https://github.com/mmbell/FRACTL.git && \
+    cd FRACTL && \
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local/lrose . && \
+    make install
+
+# Checkout and build samurai
+
+WORKDIR /tmp
+
+RUN git clone https://github.com/mjskier/samurai.git && \
+    cd samurai && \
+    git checkout bpm_coamps && \
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local/lrose . && \
+    make install
+    
 # Start from a fresh ubuntu to not carry over all the build stuff
 
 FROM ubuntu:16.04
