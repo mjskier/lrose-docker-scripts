@@ -4,7 +4,7 @@ FROM ubuntu:16.04 as builder
 
 MAINTAINER Bruno Melli "bpmelli@rams.colostate.edu"
 LABEL vendor="Joint NCAR CSU"
-LABEL release-date="2018-04-10"
+LABEL release-date="2019-01-05"
 
 COPY checkout_and_build_auto.py /tmp
 
@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y  \
     libjasper-dev qtbase5-dev git \
     gcc g++ gfortran libfl-dev \
     automake make libtool pkg-config libexpat1-dev python \
-    cmake libgeographic-dev libeigen3-dev libzip-dev 
+    cmake libgeographic-dev libeigen3-dev libzip-dev libcurl4-openssl-dev
     
 WORKDIR /tmp
 
@@ -25,8 +25,9 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/qt5/bin/qmake /usr/bin/qmake-qt5 && \
 
 # Checkout and build fractl
 
-RUN git clone https://github.com/mmbell/FRACTL.git && \
-    cd FRACTL && \
+RUN git clone https://github.com/mmbell/fractl.git && \
+    cd fractl && \
+    git checkout lrose-blaze-20190105 && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local/lrose . && \
     make install
 
@@ -34,9 +35,9 @@ RUN git clone https://github.com/mmbell/FRACTL.git && \
 
 WORKDIR /tmp
 
-RUN git clone https://github.com/mjskier/samurai.git && \
+RUN git clone https://github.com/mmbell/samurai.git && \
     cd samurai && \
-    git checkout bpm_coamps && \
+    git checkout lrose-blaze-20190105 && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local/lrose . && \
     make install
     
@@ -54,7 +55,7 @@ WORKDIR /home/lrose
 RUN apt-get update && apt-get install -y \
     libqt5gui5 libqt5core5a qt5-default libx11-6 \
     libfftw3-3 libgeographic14 \
-    libfreetype6 && \
+    libfreetype6 libcurl3 && \
     rm -rf /var/lib/apt/lists/* && \
     useradd -G video lrose
 

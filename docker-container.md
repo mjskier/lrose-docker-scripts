@@ -167,7 +167,7 @@ Also note that volume mapping must be done at the time you **run** a container. 
 
 #### Mapping NFS Volumes
 
-Before you can map an NFS volume, you need to create it with the **docker volume create** command.
+Before you can map an NFS volume, you need to create it with the `docker volume create` command.
 First, find out how it is mounted on your machine with the mount command.
 
 `mount`
