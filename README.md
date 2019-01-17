@@ -1,3 +1,7 @@
+# This repo is obsolete.
+
+The content has been moved to the [nfs-lrose repo](https://github.com/nsf-lrose/release-tools)
+
 # docker_scripts
 Various scripts and files to build a lrose-blaze image
 
